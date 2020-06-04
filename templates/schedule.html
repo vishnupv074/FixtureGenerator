@@ -1,0 +1,45 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+{% if msg != '' %}
+{{ msg }}
+{% else %}
+<h2>Fixture</h2>
+<a href="login">login</a>
+<table class="table">
+              <thead>
+                <tr>
+                  <th>#Date</th>
+                  <th>Team1</th>
+                  <th>Team2</th>
+                  <th>Venue</th>
+                    <th>Score of Team1</th>
+                    <th>Score of Team2</th>
+                    <th>Completed</th>
+                </tr>
+              </thead>
+              <tbody>
+              {% for match in matches %}
+                <tr>
+                  <td>{{match.date}}</td>
+                    <td><a href="team/{{match.team1.id}}">{{match.team1.teamName}}</a></td>
+                  <td><a href="team/{{match.team2.id}}">{{match.team2.teamName}}</a></td>
+                  <td>{{match.venue.venue}}</td>
+                    <td>{{match.team1_score}}</td>
+                    <td>{{match.team2.score}}</td>
+                    <td>{% if match.match_over == True %}
+                        Yes
+                        {% else %}
+                        No
+                        {% endif %}
+                    </td>
+                    {% endfor %}
+                </tr>
+
+              </tbody>
+            </table>
+<br>
+
+{% endif %}
+
+{% endblock %}

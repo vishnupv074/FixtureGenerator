@@ -1,0 +1,48 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<a href="/admin_panel"><h3>Admin panel</h3></a>
+
+<table class="table" border="1" cellpadding="10">
+              <thead>
+                <tr>
+                  <th>#Date</th>
+                  <th>Team1</th>
+                  <th>Team2</th>
+                  <th>Venue</th>
+                    <th>Completed</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>{{match.date}}</td>
+                    <td><a href="team/{{match.team1.id}}">{{match.team1.teamName}}</a></td>
+                  <td><a href="team/{{match.team2.id}}">{{match.team2.teamName}}</a></td>
+                  <td>{{match.venue.venue}}</td>
+                    <td>{% if match.match_over == True %}
+                        Yes
+                        {% else %}
+                        No
+                        {% endif %}
+                    </td>
+                </tr>
+
+              </tbody>
+            </table>
+
+<br><br>
+<form method="POST">{% csrf_token %}
+    <input type="text" name="match_id" value="{{match.id}}" hidden>
+<label>Score of {{ match.team1.teamName }}</label> :
+<input type="number" name="team1_score" value="{{ match.team1_score }}">
+<br>
+<label>Score of {{ match.team2.teamName }}</label> :
+<input type="number" name="team2_score" value="{{ match.team2_score }}">
+    <br>
+
+    <label > Is match over</label>
+    <input type="checkbox" name="is_completed" {% if match.match_over == True %} checked {% else %} {% endif %}/>
+    <button type="submit">Update</button>
+</form>
+
+{% endblock %}
